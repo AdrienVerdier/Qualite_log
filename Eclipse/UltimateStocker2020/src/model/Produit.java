@@ -8,7 +8,7 @@ public class Produit {
 	private int Prix;
 	private int Quantite;
 	private String Description;
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Rayon IDRayon;
 	public int getIDProduit() {
 		return IDProduit;
@@ -49,5 +49,7 @@ public class Produit {
 		IDRayon = iDRayon;
 	}
 
-	
+	public Produit() {
+		super();
+	}
 }

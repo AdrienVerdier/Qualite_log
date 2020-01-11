@@ -8,9 +8,9 @@ public class ChefRayon {
 	private String Nom;
 	private String prenom;
 	private String MotDePasse;
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private ChefMagasin IDChefMagasin;
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Rayon IDRayon;
 	public int getIDChefRayon() {
 		return IDChefRayon;
@@ -59,5 +59,7 @@ public class ChefRayon {
 		IDRayon = iDRayon;
 	}
 
-	
+	public ChefRayon() {
+		super();
+	}
 }
