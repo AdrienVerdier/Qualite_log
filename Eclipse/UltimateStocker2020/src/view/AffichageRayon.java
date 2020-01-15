@@ -22,7 +22,7 @@ import javax.swing.table.TableRowSorter;
 
 public class AffichageRayon extends JPanel implements ActionListener{
 	
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 12L;
 	private JButton userManagementButton, openButton, addButton, suppressButton, passwordChangementButton, searchButton;
 	private JFrame frame;
 	private JTextField textZone1;

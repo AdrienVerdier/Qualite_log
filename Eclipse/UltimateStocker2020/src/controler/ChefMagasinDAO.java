@@ -12,16 +12,13 @@ import model.Rayon;
 public class ChefMagasinDAO {
 
 	public static void ajouterChefMagasin(ChefMagasin ChefMagasin) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		em.persist(ChefMagasin);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Connexion.getEM().persist(ChefMagasin);
+		Connexion.getEM().getTransaction().commit();
 	}
 	
-	public static void ajouterChefMagasinChefRayon(ChefMagasin ChefMagasin,ChefRayon ChefRayon) {
-		EntityManager em = Connexion.ouvrirconnexion();		
-		em.getTransaction().begin();
+	public static void ajouterChefMagasinChefRayon(ChefMagasin ChefMagasin,ChefRayon ChefRayon) {	
+		Connexion.getEM().getTransaction().begin();
 		List<ChefRayon> listChefRayon;
 		listChefRayon = ChefMagasin.getListChefRayon();
 		if(listChefRayon == null)
@@ -30,13 +27,11 @@ public class ChefMagasinDAO {
 		}
 		listChefRayon.add(ChefRayon);
 		ChefMagasin.setListChefRayon(listChefRayon);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 	
-	public static void ajouterChefMagasinRayon(ChefMagasin ChefMagasin,Rayon Rayon) {
-		EntityManager em = Connexion.ouvrirconnexion();		
-		em.getTransaction().begin();
+	public static void ajouterChefMagasinRayon(ChefMagasin ChefMagasin,Rayon Rayon) {	
+		Connexion.getEM().getTransaction().begin();
 		List<Rayon> listRayon;
 		listRayon = ChefMagasin.getListRayon();
 		if(listRayon == null)
@@ -45,60 +40,50 @@ public class ChefMagasinDAO {
 		}
 		listRayon.add(Rayon);
 		ChefMagasin.setListRayon(listRayon);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static void supprimerChefMagasin(ChefMagasin ChefMagasin) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		ChefMagasin ChefMagasin2 = em.find(ChefMagasin.class, ChefMagasin.getIDChefMagasin());
-		em.remove(ChefMagasin2);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		ChefMagasin ChefMagasin2 = Connexion.getEM().find(ChefMagasin.class, ChefMagasin.getIDChefMagasin());
+		Connexion.getEM().remove(ChefMagasin2);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static ChefMagasin rechercheChefMagasinById(int IDChefMagasin) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		ChefMagasin ChefMagasin = em.find(ChefMagasin.class, IDChefMagasin);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		ChefMagasin ChefMagasin = Connexion.getEM().find(ChefMagasin.class, IDChefMagasin);
+		Connexion.getEM().getTransaction().commit();
 		return ChefMagasin;
 	}
 
 	public static void modifierChefMagasin(int IDChefMagasin, ChefMagasin ChefMagasin) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		ChefMagasin NouveauChefMagasin = em.find(ChefMagasin.class, IDChefMagasin);
+		Connexion.getEM().getTransaction().begin();
+		ChefMagasin NouveauChefMagasin = Connexion.getEM().find(ChefMagasin.class, IDChefMagasin);
 		NouveauChefMagasin.setMotDePasse(ChefMagasin.getMotDePasse());
 		NouveauChefMagasin.setNom(ChefMagasin.getNom());
 		NouveauChefMagasin.setPrenom(ChefMagasin.getPrenom());
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 
-	public static ArrayList<ChefMagasin> retrunAllChefMagasin() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static ArrayList<ChefMagasin> returnAllChefMagasin() {
+		Connexion.getEM().getTransaction().begin();
 		ArrayList<ChefMagasin> resultat = new ArrayList<ChefMagasin>();
 		String queryString = "select c from ChefMagasin c";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		for (int i = 0; i < results.size(); i++) {
 			ChefMagasin ChefMagasin = (ChefMagasin) results.get(i);
 			resultat.add(ChefMagasin);
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return resultat;
 	};
 	
-	public static int retrunMaxIDChefMagasin() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static int returnMaxIDChefMagasin() {
+		Connexion.getEM().getTransaction().begin();
 		String queryString = "select c from ChefMagasin c";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		int max = 0;
 		for (int i = 0; i < results.size(); i++) {
@@ -108,8 +93,7 @@ public class ChefMagasinDAO {
 				max = ChefMagasin.getIDChefMagasin()+1;
 			}
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return max;
 	};
 }

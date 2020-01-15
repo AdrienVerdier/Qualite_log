@@ -24,7 +24,7 @@ import javax.swing.border.LineBorder;
  */
 public class authentificationPanel extends JPanel implements ActionListener{
 	
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 7L;
 	private JButton connexion;
 	private JFrame frame;
 	private JLabel textLabel1, textLabel2, titre, validateLabel;

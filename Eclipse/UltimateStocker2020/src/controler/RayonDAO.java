@@ -13,16 +13,13 @@ import model.Rayon;
 
 public class RayonDAO {
 	public static void ajouterRayon(Rayon Rayon) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		em.persist(Rayon);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Connexion.getEM().persist(Rayon);
+		Connexion.getEM().getTransaction().commit();
 	}
 	
 	public static void ajouterRayonChefRayon(Rayon Rayon,ChefRayon ChefRayon) {
-		EntityManager em = Connexion.ouvrirconnexion();		
-		em.getTransaction().begin();
+		Connexion.getEM().getTransaction().begin();
 		List<ChefRayon> listChefRayon;
 		listChefRayon = Rayon.getListChefRayon();
 		if(listChefRayon == null)
@@ -31,13 +28,11 @@ public class RayonDAO {
 		}
 		listChefRayon.add(ChefRayon);
 		Rayon.setListChefRayon(listChefRayon);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 	
 	public static void ajouterRayonProduit(Rayon Rayon,Produit Produit) {
-		EntityManager em = Connexion.ouvrirconnexion();		
-		em.getTransaction().begin();
+		Connexion.getEM().getTransaction().begin();
 		List<Produit> listProduit;
 		listProduit = Rayon.getListProduit();
 		if(listProduit == null)
@@ -46,58 +41,48 @@ public class RayonDAO {
 		}
 		listProduit.add(Produit);
 		Rayon.setListProduit(listProduit);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static void supprimerRayon(Rayon Rayon) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Rayon Rayon2 = em.find(Rayon.class, Rayon.getIDRayon());
-		em.remove(Rayon2);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Rayon Rayon2 = Connexion.getEM().find(Rayon.class, Rayon.getIDRayon());
+		Connexion.getEM().remove(Rayon2);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static Rayon rechercheRayonById(int IDRayon) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Rayon Rayon = em.find(Rayon.class, IDRayon);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Rayon Rayon = Connexion.getEM().find(Rayon.class, IDRayon);
+		Connexion.getEM().getTransaction().commit();
 		return Rayon;
 	}
 
 	public static void modifierRayon(int IDRayon, Rayon Rayon) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Rayon NouveauRayon = em.find(Rayon.class, IDRayon);
+		Connexion.getEM().getTransaction().begin();
+		Rayon NouveauRayon = Connexion.getEM().find(Rayon.class, IDRayon);
 		NouveauRayon.setNom(Rayon.getNom());
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 
-	public static ArrayList<Rayon> retrunAllRayon() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static ArrayList<Rayon> returnAllRayon() {
+		Connexion.getEM().getTransaction().begin();
 		ArrayList<Rayon> resultat = new ArrayList<Rayon>();
 		String queryString = "select c from Rayon c";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		for (int i = 0; i < results.size(); i++) {
 			Rayon Rayon = (Rayon) results.get(i);
 			resultat.add(Rayon);
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return resultat;
 	};
 	
-	public static int retrunMaxIDRayon() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static int returnMaxIDRayon() {
+		Connexion.getEM().getTransaction().begin();
 		String queryString = "select r from Rayon r";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		int max = 0;
 		for (int i = 0; i < results.size(); i++) {
@@ -107,8 +92,7 @@ public class RayonDAO {
 				max = Rayon.getIDRayon()+1;
 			}
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return max;
 	};
 

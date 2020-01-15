@@ -11,63 +11,52 @@ import model.Produit;
 public class ProduitDAO {
 
 	public static void ajouterProduit(Produit Produit) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		em.persist(Produit);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Connexion.getEM().persist(Produit);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static void supprimerProduit(Produit Produit) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Produit Produit2 = em.find(Produit.class, Produit.getIDProduit());
-		em.remove(Produit2);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Produit Produit2 = Connexion.getEM().find(Produit.class, Produit.getIDProduit());
+		Connexion.getEM().remove(Produit2);
+		Connexion.getEM().getTransaction().commit();
 	}
 
 	public static Produit rechercheProduitById(int IDProduit) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Produit Produit = em.find(Produit.class, IDProduit);
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().begin();
+		Produit Produit = Connexion.getEM().find(Produit.class, IDProduit);
+		Connexion.getEM().getTransaction().commit();
 		return Produit;
 	}
 
 	public static void modifierProduit(int IDProduit, Produit Produit) {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
-		Produit NouveauProduit = em.find(Produit.class, IDProduit);
+		Connexion.getEM().getTransaction().begin();
+		Produit NouveauProduit = Connexion.getEM().find(Produit.class, IDProduit);
 		NouveauProduit.setDescription(Produit.getDescription());
 		NouveauProduit.setPrix(Produit.getPrix());
 		NouveauProduit.setQuantite(Produit.getQuantite());
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 	}
 
-	public static ArrayList<Produit> retrunAllProduit() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static ArrayList<Produit> returnAllProduit() {
+		Connexion.getEM().getTransaction().begin();
 		ArrayList<Produit> resultat = new ArrayList<Produit>();
 		String queryString = "select c from Produit c";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		for (int i = 0; i < results.size(); i++) {
 			Produit Produit = (Produit) results.get(i);
 			resultat.add(Produit);
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return resultat;
 	};
 	
-	public static int retrunMaxIDProduit() {
-		EntityManager em = Connexion.ouvrirconnexion();
-		em.getTransaction().begin();
+	public static int returnMaxIDProduit() {
+		Connexion.getEM().getTransaction().begin();
 		String queryString = "select p from Produit p";
-		Query query = em.createQuery(queryString);
+		Query query = Connexion.getEM().createQuery(queryString);
 		List results = query.getResultList();
 		int max = 0;
 		for (int i = 0; i < results.size(); i++) {
@@ -77,8 +66,7 @@ public class ProduitDAO {
 				max = Produit.getIDProduit()+1;
 			}
 		}
-		em.getTransaction().commit();
-		Connexion.fermerconnexion(em);
+		Connexion.getEM().getTransaction().commit();
 		return max;
 	};
 }

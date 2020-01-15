@@ -11,7 +11,7 @@ import javax.swing.UIManager;
  */
 public class appInterface extends JFrame{
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 9L;
 	public static int windowsSizeX = 1000;
 	public static int windowsSizeY = 800;
 
