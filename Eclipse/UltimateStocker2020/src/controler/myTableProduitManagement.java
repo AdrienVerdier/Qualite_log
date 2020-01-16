@@ -36,7 +36,7 @@ public class myTableProduitManagement extends AbstractTableModel {
 	}
 
 	public void removeRow(int row) {
-		gestionProduit.supprimerSetup((int) table.getValueAt(row, 0));
+		gestionProduit.supprimerProduit((int) table.getValueAt(row, 0));
 		
 		this.fireTableDataChanged();
 	}
@@ -55,7 +55,7 @@ public class myTableProduitManagement extends AbstractTableModel {
 			case 0:
 				return produitSelected.getIDProduit();
 			case 1:
-				return produitSelected.getPrix()();
+				return produitSelected.getPrix();
 			case 2:
 				return produitSelected.getQuantite();
 			case 3:
