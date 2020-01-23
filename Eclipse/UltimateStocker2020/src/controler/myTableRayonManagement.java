@@ -13,6 +13,7 @@ public class myTableRayonManagement extends AbstractTableModel {
 	private String[] columnNames;
 	private JTable table;
 	private int idUtilisateur;
+	private boolean isChefMagasin;
 
 	public myTableRayonManagement(String[] columnNames, int idUtilisateur) {
 		this.columnNames = columnNames;
@@ -28,7 +29,7 @@ public class myTableRayonManagement extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return gestionRayon.nombreRayon(idUtilisateur);
+		return gestionRayon.nombreRayon(idUtilisateur, isChefMagasin);
 	}
 
 	public String getColumnName(int col) {
@@ -43,7 +44,7 @@ public class myTableRayonManagement extends AbstractTableModel {
 
 	public Object getValueAt(int row, int col) {
 
-		if (gestionRayon.nombreRayon(idUtilisateur) != 0) {
+		if (gestionRayon.nombreRayon(idUtilisateur, isChefMagasin) != 0) {
 			Iterator<Rayon> iterator = gestionRayon.getRayon(idUtilisateur).iterator();
 
 			for (int i = 0; i < row; i++)
