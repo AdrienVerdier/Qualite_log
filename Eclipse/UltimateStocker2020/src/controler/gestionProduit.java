@@ -3,8 +3,8 @@ package controler;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import model.Rayon;
 import model.Produit;
+import model.Rayon;
 
 public class gestionProduit {
 	
@@ -17,6 +17,15 @@ public class gestionProduit {
 		}
 		
 		return true;
+	}
+	
+	public static void modifierProduit(int idProduit, String description, int prix, int quantite, int codeRayon) {
+		Produit produit = ProduitDAO.rechercheProduitById(idProduit);
+		produit.setDescription(description);
+		produit.setIDRayon(RayonDAO.rechercheRayonById(codeRayon));
+		produit.setPrix(prix);
+		produit.setQuantite(quantite);
+		ProduitDAO.modifierProduit(idProduit, produit);
 	}
 	
 	public static int nombreProduit(int codeRayon) {
@@ -44,6 +53,21 @@ public class gestionProduit {
 		}
 		
 		return retour;
+	}
+	
+	public static String getDescription(int IDProduit) {
+		Produit produit = ProduitDAO.rechercheProduitById(IDProduit);
+		return produit.getDescription();
+	}
+	
+	public static int getQuantite(int IDProduit) {
+		Produit produit = ProduitDAO.rechercheProduitById(IDProduit);
+		return produit.getQuantite();
+	}
+	
+	public static int getPrix(int IDProduit) {
+		Produit produit = ProduitDAO.rechercheProduitById(IDProduit);
+		return produit.getPrix();
 	}
 
 }

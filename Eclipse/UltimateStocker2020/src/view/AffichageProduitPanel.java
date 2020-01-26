@@ -154,7 +154,7 @@ public class AffichageProduitPanel extends JPanel implements ActionListener {
 
 		if (e.getSource() == addButton) {
 			
-			JPanel ajouterProduitPanel = new AjouterProduitPanel(frame, idUser, isChefMagasin, idRayon);
+			JPanel ajouterProduitPanel = new AjouterProduitPanel(frame, idUser, isChefMagasin, idRayon, true, 0);
 			frame.repaint();
 			frame.revalidate();
 			

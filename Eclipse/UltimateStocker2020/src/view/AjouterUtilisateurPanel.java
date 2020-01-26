@@ -181,7 +181,7 @@ public class AjouterUtilisateurPanel extends JPanel implements ActionListener {
 
 		if (e.getSource() == returnButton) {
 			JPanel GestionUtilisateurPanel = new GestionUtilisateurPanel(frame, idUser, isChefMagasin);
-			frame.getIgnoreRepaint();
+			frame.repaint();
 			frame.revalidate();
 		}
 	}
