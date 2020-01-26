@@ -20,41 +20,60 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import controler.gestionRayon;
+import controler.gestionUtilisateur;
+import controler.myTableRayonManagement;
+
 public class AffichageRayon extends JPanel implements ActionListener{
 	
 	private static final long serialVersionUID = 12L;
-	private JButton userManagementButton, openButton, addButton, suppressButton, passwordChangementButton, searchButton;
+	private JButton addButton, suppressButton, modifier, changerMotDePasse, gestionDesUtilisateurs, ouvrir;
 	private JFrame frame;
-	private JTextField textZone1;
-	private JComboBox<String> dropDownList;
 	private JTable table;
-	private JLabel titre;
 	private myTableRayonManagement tablemodel;
+	private JLabel label;
 	private TableRowSorter<myTableRayonManagement> sorter;
-	private boolean isChefMagasin;
 	private int idUser;
+	private boolean isChefMagasin;
 
-	public AffichageRayon(JFrame frame, boolean isChefMagasin, int idUser) {
-		this.isChefMagasin = isChefMagasin;
+	public AffichageRayon(JFrame frame, boolean isChefMagasin ,int idUser) {
 		this.idUser = idUser;
+		this.isChefMagasin = isChefMagasin;
 		this.frame = frame;
 
 		this.setLayout(null);
 		this.frame.setContentPane(this);
 
-		titre = new JLabel("Ultimate Stocker 2020 - Visualisation des rayons");
-		titre.setLayout(null);
-		titre.setFont(new Font("Arial", Font.BOLD, 20));
-		titre.setBounds(25, 0, 250, 40);
-		this.add(titre);
+		label = new JLabel("Choix du Rayon");
+		label.setLayout(null);
+		label.setFont(new Font("Arial", Font.BOLD, 20));
+		label.setBounds(25, 0, 250, 40);
+		this.add(label);
 
 		addButton = new JButton("Ajouter");
-		addButton.setBounds(appInterface.windowsSizeX - 225, 75, 175, 50);
+		addButton.setBounds(appInterface.windowsSizeX - 225, 150, 175, 50);
 		addButton.setFont(new Font("Arial", Font.BOLD, 20));
 		addButton.setForeground(Color.BLACK);
 		addButton.setBackground(Color.LIGHT_GRAY);
 		this.add(addButton);
 		addButton.addActionListener(this);
+
+		String title[] = { "ID Rayon", "Nom du rayon"};
+
+		tablemodel = new myTableRayonManagement(title, idUser, isChefMagasin);
+		table = new JTable(tablemodel);
+		tablemodel.setTable(table);
+		JScrollPane tableContainer = new JScrollPane(table);
+		table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
+		table.getTableHeader().setForeground(Color.blue);
+		table.getTableHeader().setBackground(new Color(51, 153, 255));
+		table.setFont(new Font("Arial", Font.BOLD, 13));
+		table.setAutoCreateRowSorter(true);
+		table.getTableHeader().setReorderingAllowed(false);
+		tableContainer.setBounds(50, 200, 700, 400);
+		this.add(tableContainer, BorderLayout.CENTER);
+
+		sorter = new TableRowSorter<myTableRayonManagement>(tablemodel);
 
 		suppressButton = new JButton("Supprimer");
 		suppressButton.setBounds(appInterface.windowsSizeX - 225, 225, 175, 50);
@@ -64,132 +83,111 @@ public class AffichageRayon extends JPanel implements ActionListener{
 		this.add(suppressButton);
 		suppressButton.addActionListener(this);
 
-		userManagementButton = new JButton("Gestion des utilisateurs");
-		userManagementButton.setBounds(appInterface.windowsSizeX - 225, appInterface.windowsSizeY - 125, 175, 50);
-		userManagementButton.setFont(new Font("Arial", Font.BOLD, 20));
-		userManagementButton.setForeground(Color.BLACK);
-		userManagementButton.setBackground(Color.LIGHT_GRAY);
-		this.add(userManagementButton);
-		userManagementButton.addActionListener(this);
+		modifier = new JButton("Modifier");
+		modifier.setBounds(appInterface.windowsSizeX - 225, appInterface.windowsSizeY - 250, 175, 50);
+		modifier.setFont(new Font("Arial", Font.BOLD, 20));
+		modifier.setForeground(Color.BLACK);
+		modifier.setBackground(Color.LIGHT_GRAY);
+		this.add(modifier);
+		modifier.addActionListener(this);
 		
-		openButton = new JButton("Ouvrir");
-		openButton.setBounds(appInterface.windowsSizeX - 225, appInterface.windowsSizeY - 110, 175, 50);
-		openButton.setFont(new Font("Arial", Font.BOLD, 20));
-		openButton.setForeground(Color.BLACK);
-		openButton.setBackground(Color.LIGHT_GRAY);
-		this.add(openButton);
-		openButton.addActionListener(this);
+		changerMotDePasse = new JButton("Changer Mot de Passe");
+		changerMotDePasse.setBounds(appInterface.windowsSizeX - 450, appInterface.windowsSizeY - 125, 400, 50);
+		changerMotDePasse.setFont(new Font("Arial", Font.BOLD, 20));
+		changerMotDePasse.setForeground(Color.BLACK);
+		changerMotDePasse.setBackground(Color.LIGHT_GRAY);
+		this.add(changerMotDePasse);
+		changerMotDePasse.addActionListener(this);
 		
-		passwordChangementButton = new JButton("Changement mot de passe");
-		passwordChangementButton.setBounds(appInterface.windowsSizeX - 225, appInterface.windowsSizeY - 95, 175, 50);
-		passwordChangementButton.setFont(new Font("Arial", Font.BOLD, 20));
-		passwordChangementButton.setForeground(Color.BLACK);
-		passwordChangementButton.setBackground(Color.LIGHT_GRAY);
-		this.add(passwordChangementButton);
-		passwordChangementButton.addActionListener(this);
+		ouvrir = new JButton("Accéder au rayon");
+		ouvrir.setBounds(appInterface.windowsSizeX - 275, 75, 225, 50);
+		ouvrir.setFont(new Font("Arial", Font.BOLD, 20));
+		ouvrir.setForeground(Color.BLACK);
+		ouvrir.setBackground(Color.LIGHT_GRAY);
+		this.add(ouvrir);
+		ouvrir.addActionListener(this);
 		
-		searchButton = new JButton("Rechercher");
-		searchButton.setBounds(appInterface.windowsSizeX - 225, appInterface.windowsSizeY - 95, 175, 50);
-		searchButton.setFont(new Font("Arial", Font.BOLD, 20));
-		searchButton.setForeground(Color.BLACK);
-		searchButton.setBackground(Color.LIGHT_GRAY);
-		this.add(searchButton);
-		searchButton.addActionListener(this);
-
-		String title[] = { "ID", "NOM DU RAYON"};
-
-		tablemodel = new myTableRayonManagement(title);
-		table = new JTable(tablemodel);
-		tablemodel.setTable(table);
-
-		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-
-			private static final long serialVersionUID = 2L;
-
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-					boolean hasFocus, int row, int column) {
-
-				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-				c.setForeground(Color.BLACK);
-
-				return c;
-			}
-		});
-
-		JScrollPane tableContainer = new JScrollPane(table);
-		table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
-		table.getTableHeader().setForeground(Color.white);
-		table.getTableHeader().setBackground(new Color(51, 153, 255));
-		table.setFont(new Font("Arial", Font.BOLD, 13));
-		table.getTableHeader().setReorderingAllowed(false);
-		tableContainer.setBounds(50, 200, 700, 400);
-		this.add(tableContainer, BorderLayout.CENTER);
+		gestionDesUtilisateurs = new JButton("Gestion des utilisateurs");
+		gestionDesUtilisateurs.setBounds(appInterface.windowsSizeX - 225, 50, 175, 50);
+		gestionDesUtilisateurs.setFont(new Font("Arial", Font.BOLD, 20));
+		gestionDesUtilisateurs.setForeground(Color.BLACK);
+		gestionDesUtilisateurs.setBackground(Color.LIGHT_GRAY);
+		this.add(gestionDesUtilisateurs);
+		gestionDesUtilisateurs.addActionListener(this);
+		if(isChefMagasin) {
+			gestionDesUtilisateurs.setVisible(true);
+		}
+		else {
+			gestionDesUtilisateurs.setVisible(false);
+		}
 	}
 
-	// Cette partie n'est pas faite, il faut aussi que je fasse la doc 
+	/**
+	 * This method gathers the different action of the panel
+	 * 
+	 * @param e The action that is performed
+	 */
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == returnButton) {
-			JPanel homePanel = new homePanel(frame, user);
-			frame.repaint();
-			frame.revalidate();
+		if (e.getSource() == addButton) {
+
+			if(isChefMagasin) {
+				String nom = JOptionPane.showInputDialog(null, "Nom du rayon", "Ajout d'un rayon", JOptionPane.QUESTION_MESSAGE);
+				gestionRayon.ajouterRayon(nom, idUser);
+				JPanel AffichageRayon = new AffichageRayon(frame, isChefMagasin, idUser);
+				frame.repaint();
+				frame.revalidate();
+			}
+			else {
+				int retour = JOptionPane.showConfirmDialog(this,
+						"Seul le chef de magasin peut ajouter des rayons",
+						"CONFIRM", JOptionPane.YES_OPTION);
+			}
+			
 		}
 
 		if (e.getSource() == suppressButton) {
 			if (table.getSelectedRow() != -1) {
-
 				int retour = JOptionPane.showConfirmDialog(this,
-						"Etes-vous sûr de vouloir supprimer l'utilisateur " + tablemodel.getValueAt(table.getSelectedRow(), 2) + " "
-								+ tablemodel.getValueAt(table.getSelectedRow(), 3) + " ?",
+						"Êtes-vous sûr de vouloir supprimer ce rayon",
 						"CONFIRM", JOptionPane.YES_NO_OPTION);
 
 				if (retour == JOptionPane.OK_OPTION)
 					tablemodel.removeRow(table.getSelectedRow());
 			}
 		}
-
-		if (e.getSource() == addButton) {
-			JPanel utilisateurAddPanel = new utilisateurAddPanel(frame, user);
+		
+		if (e.getSource() == ouvrir) {
+			JPanel affichageProduitPanel = new AffichageProduitPanel(frame, idUser, isChefMagasin, (int)table.getValueAt(table.getSelectedRow(), 0));
 			frame.repaint();
 			frame.revalidate();
 		}
+		
+		if(e.getSource() == modifier) {
+			if (table.getSelectedRow() != -1) {
+				String retour = JOptionPane.showInputDialog(null,
+						"Nouveau nom du rayon",
+						"Modifier", JOptionPane.QUESTION_MESSAGE);
 
-		if (e.getSource() == searchButton) {
-			if (dropDownList.getSelectedItem().equals("ID")) {
-				if (textZone1.getText() != null) {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textZone1.getText(), 0));
-					table.setRowSorter(sorter);
-				} else
-					table.setAutoCreateRowSorter(true);
-			}
-
-			if (dropDownList.getSelectedItem().equals("LOGIN")) {
-				if (textZone1.getText() != null) {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textZone1.getText(), 1));
-					table.setRowSorter(sorter);
-				} else
-					table.setAutoCreateRowSorter(true);
-
-			}
-
-			if (dropDownList.getSelectedItem().equals("NOM")) {
-				if (textZone1.getText() != null) {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textZone1.getText(), 2));
-					table.setRowSorter(sorter);
-				} else
-					table.setAutoCreateRowSorter(true);
-			}
-
-			if (dropDownList.getSelectedItem().equals("PRENOM")) {
-				if (textZone1.getText() != null) {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + textZone1.getText(), 7));
-					table.setRowSorter(sorter);
-				} else
-					table.setAutoCreateRowSorter(true);
+				if (!retour.isEmpty())
+					gestionRayon.modifierRayon((int)table.getValueAt(table.getSelectedRow(), 0), retour);
+				
+				JPanel AffichageRayon = new AffichageRayon(frame, isChefMagasin, idUser);
+				frame.repaint();
+				frame.revalidate();
 			}
 		}
+		
+		if (e.getSource() == gestionDesUtilisateurs) {
+			JPanel GestionUtilisateurPanel = new GestionUtilisateurPanel(frame, idUser, isChefMagasin);
+			frame.repaint();
+			frame.revalidate();
+		}
+		
+		if (e.getSource() == changerMotDePasse) {
+			String newPasswd = JOptionPane.showInputDialog(null, "Entrer votre nouveau mot de passe", "Changement mot de passe", JOptionPane.QUESTION_MESSAGE);
+			gestionUtilisateur.changerMDP(idUser, isChefMagasin, newPasswd);
+			JOptionPane.showMessageDialog(null, "Mot de passe changé");
+		}
 	}
-
 }

@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import controler.gestionUtilisateur;
 
 /**
  * This class is the interface of the authentification Panel
@@ -30,6 +33,7 @@ public class authentificationPanel extends JPanel implements ActionListener{
 	private JLabel textLabel1, textLabel2, titre, validateLabel;
 	private JTextField textZone1;
 	private JPasswordField textZone2;
+	private JCheckBox chefMagasin;
 	private boolean isChefMagasin;
 	private int idUser;
 	
@@ -44,7 +48,7 @@ public class authentificationPanel extends JPanel implements ActionListener{
 		this.setLayout(null);
 		this.frame.setContentPane(this);
 		
-		titre = new JLabel("Ultimate Stocker 2020 - Page d'authentification");
+		titre = new JLabel("Connexion");
 		titre.setLayout(null);
 		titre.setFont(new Font("Arial", Font.BOLD, 20));
 		titre.setBounds(25, 0, 250, 40);
@@ -56,6 +60,11 @@ public class authentificationPanel extends JPanel implements ActionListener{
 		validateLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		validateLabel.setBounds(appInterface.windowsSizeX - 650, appInterface.windowsSizeY - 200, 500, 40);
 		this.add(validateLabel);
+		
+		chefMagasin = new JCheckBox("Chef de Magasin");
+		chefMagasin.setBounds(appInterface.windowsSizeX - 800, appInterface.windowsSizeY - 650, 300, 50);
+		chefMagasin.setFont(new Font("Arial", Font.BOLD, 20));
+		this.add(chefMagasin);
 		
 		connexion = new JButton("Connexion");
 		connexion.setBounds(appInterface.windowsSizeX /2, appInterface.windowsSizeY / 2, 350, 80);
@@ -161,12 +170,10 @@ public class authentificationPanel extends JPanel implements ActionListener{
 				textZone2.setBorder(new LineBorder(Color.GRAY, 1));
 
 				// Authentification de l'utilisateur 
-				Object retour[] = authentification.verify(textZone1.getText(), String.copyValueOf(textZone2.getPassword()));
-				isChefMagasin = (boolean)retour[0];
-				idUser = (int)retour[1];
+				int idUser= gestionUtilisateur.authentification(Integer.parseInt(textZone1.getText()), String.copyValueOf(textZone2.getPassword()), chefMagasin.isSelected());
 				
 				if(idUser != -1) {
-					JPanel AffichageRayon = new AffichageRayon(frame, isChefMagasin, idUser);
+					JPanel AffichageRayon = new AffichageRayon(frame, chefMagasin.isSelected(), idUser);
 					frame.repaint();
 					frame.revalidate();
 				}

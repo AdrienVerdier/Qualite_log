@@ -23,7 +23,7 @@ public class Connexion {
 		return em;
 	}
 
-	static public void fermerconnexion(EntityManager em) {
+	static public void fermerconnexion() {
 		em.close();
 	}
 }

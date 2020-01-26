@@ -15,9 +15,10 @@ public class myTableRayonManagement extends AbstractTableModel {
 	private int idUtilisateur;
 	private boolean isChefMagasin;
 
-	public myTableRayonManagement(String[] columnNames, int idUtilisateur) {
+	public myTableRayonManagement(String[] columnNames, int idUtilisateur, boolean isChefMagasin) {
 		this.columnNames = columnNames;
 		this.idUtilisateur = idUtilisateur;
+		this.isChefMagasin = isChefMagasin;
 	}
 
 	public void setTable(JTable table) {

@@ -26,7 +26,7 @@ public class myTableUtilisateurManagement extends AbstractTableModel {
 	}
 
 	public int getRowCount() {
-		return gestionUtilisateur.nombreUtilisateur();
+		return gestionUtilisateur.nombreChefRayon();
 	}
 
 	public String getColumnName(int col) {
@@ -34,15 +34,15 @@ public class myTableUtilisateurManagement extends AbstractTableModel {
 	}
 
 	public void removeRow(int row) {
-		gestionUtilisateur.supprimerUtilisateur((int) table.getValueAt(row, 0));
+		gestionUtilisateur.supprimerChefRayon((int) table.getValueAt(row, 0));
 		
 		this.fireTableDataChanged();
 	}
 
 	public Object getValueAt(int row, int col) {
 
-		if (gestionUtilisateur.nombreUtilisateur() != 0) {
-			Iterator<ChefRayon> iterator = gestionUtilisateur.getUtilisateur().iterator();
+		if (gestionUtilisateur.nombreChefRayon() != 0) {
+			Iterator<ChefRayon> iterator = gestionUtilisateur.getChefRayon().iterator();
 
 			for (int i = 0; i < row; i++)
 				iterator.next();
