@@ -62,7 +62,7 @@ public class authentificationPanel extends JPanel implements ActionListener{
 		this.add(validateLabel);
 		
 		chefMagasin = new JCheckBox("Chef de Magasin");
-		chefMagasin.setBounds(appInterface.windowsSizeX - 800, appInterface.windowsSizeY - 650, 300, 50);
+		chefMagasin.setBounds(appInterface.windowsSizeX - 800, appInterface.windowsSizeY - 500, 300, 50);
 		chefMagasin.setFont(new Font("Arial", Font.BOLD, 20));
 		this.add(chefMagasin);
 		

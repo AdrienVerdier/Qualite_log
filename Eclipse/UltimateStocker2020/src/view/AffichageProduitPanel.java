@@ -178,7 +178,7 @@ public class AffichageProduitPanel extends JPanel implements ActionListener {
 		}
 		
 		if (e.getSource() == retour) {
-			JPanel GestionUtilisateurPanel = new GestionUtilisateurPanel(frame, idUser, isChefMagasin);
+			JPanel affichageRayon = new AffichageRayon(frame, isChefMagasin, idUser);
 			frame.repaint();
 			frame.revalidate();
 		}
